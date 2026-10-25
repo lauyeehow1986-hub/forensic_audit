@@ -13,7 +13,8 @@ forensic_audit/
 ├── .agents/
 │   └── mcp_config.json          # Model Context Protocol (MCP) server definitions
 ├── docs/
-│   └── GEMINI_NOTEBOOK_GUIDE.md # Comprehensive guide for Gemini Notebook integration & synthesis
+│   ├── GEMINI_NOTEBOOK_GUIDE.md # Comprehensive guide for Gemini Notebook integration & synthesis
+│   └── FACT_VERIFICATION_APIS_AND_MCP.md # Complete reference of MCP servers and REST APIs for fact verification
 ├── scripts/
 │   └── audit_paper.R            # Universal R forensic suite (statcheck, GRIM, Benford, Chart Density)
 ├── audit_reports/               # Generated verification packets (Markdown format)
@@ -85,6 +86,21 @@ Verify that the universal audit script loads cleanly:
 ```bash
 Rscript -e "source('scripts/audit_paper.R'); cat('R Forensic Suite verified successfully.\n')"
 ```
+
+### MCP Servers & REST APIs for Ground-Truth Fact Verification
+The pipeline enforces an adversarial zero-hallucination policy. Every claim, statistic, and protocol comparison is grounded in authoritative machine-readable APIs and MCP servers:
+
+| Fact / Evidence Category | Primary MCP Server | Authoritative REST API | Ground Truth Verified |
+| :--- | :--- | :--- | :--- |
+| **Retraction & EoC Status** | `papers-openalex`, `pubmed`, `zotero` | OpenAlex API, CrossRef API, Europe PMC | Real-time `is_retracted` status, CrossMark update notices, Expressions of Concern, PubPeer flags. |
+| **Paper-Mill & Reagent Forensics** | `pubmed`, `arxiv` | Problematic Paper Screener, ICLAC | Tortured phrase matching, contaminated cell line registries, primer validation. |
+| **Statistical Computations** | `rstudio-mcp` | R 4.x runtime (`audit_paper.R`) | Verbatim `statcheck` NHST checks, `scrutiny::grim_map` on all tables, Benford distributions. |
+| **Chart & Data Density** | `rstudio-mcp` | R runtime | Individual coordinate density, $<5\%$ tail support flags, cross-table $N$ reconciliation. |
+| **Protocol Pre-Registration** | `pubmed` | ClinicalTrials.gov REST API v2 | Timestamped primary vs. secondary endpoints, protocol amendments, silent outcome demotion. |
+| **Study Text & Quotes** | `pubmed`, `arxiv`, `zotero` | NCBI E-utilities (`efetch`), Europe PMC | Exact quotes for Cochrane RoB 2 domains and baseline table values. |
+
+> [!TIP] Complete Technical Reference
+> See [`docs/FACT_VERIFICATION_APIS_AND_MCP.md`](docs/FACT_VERIFICATION_APIS_AND_MCP.md) for full endpoint specifications, query payloads, authentication settings, and data flow diagrams.
 
 ### MCP Servers Setup (`.agents/mcp_config.json`)
 The pipeline coordinates research discovery and execution using the Model Context Protocol:
