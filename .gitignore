@@ -1,0 +1,17 @@
+# Ignore Case Study Audit Reports
+audit_reports/audit_*.md
+
+# Ignore Case Study and Temporary Data Files
+*.xml
+*.json
+!/.agents/mcp_config.json
+*.html
+*.txt
+scratch*
+fetch_details.py
+execute_*.R
+
+# R environment files
+.Rhistory
+.RData
+.Rproj.user/

@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "papers-openalex": {
+      "command": "papers",
+      "args": ["mcp", "start", "--stdio"],
+      "env": {
+        "OPENALEX_MAILTO": "your-email@institution.edu"
+      }
+    },
+    "pubmed": {
+      "command": "uvx",
+      "args": ["pubmed-search-mcp"],
+      "env": {
+        "NCBI_API_KEY": "YOUR_OPTIONAL_NCBI_API_KEY",
+        "NCBI_EMAIL": "your-email@institution.edu"
+      }
+    },
+    "arxiv": {
+      "command": "uvx",
+      "args": [
+        "arxiv-mcp-server",
+        "--storage-path",
+        "./arxiv_pdfs"
+      ]
+    },
+    "zotero": {
+      "command": "zotero-mcp",
+      "args": [],
+      "env": {
+        "ZOTERO_LOCAL": "true"
+      }
+    },
+    "rstudio": {
+      "command": "rstudio-mcp",
+      "args": ["--config", "~/.rstudio-mcp/config.yaml"],
+      "env": {
+        "RSTUDIO_MCP_DEBUG": "false",
+        "R_HOME": "/Library/Frameworks/R.framework/Resources"
+      }
+    }
+  }
+}
