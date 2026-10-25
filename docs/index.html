@@ -211,8 +211,8 @@
               <div class="text-slate-400"># Activate the skill on any study DOI, PMID, or PDF:</div>
               <div class="text-emerald-300 font-semibold mt-1">@forensic-research-auditor /boost</div>
               <div class="text-slate-200 mt-1">Run a comprehensive, universal Forensic Research Audit on [DOI, PMID, OR LOCAL PDF] following ./AGENTS.md.</div>
-              <button onclick="navigator.clipboard.writeText('@forensic-research-auditor /boost\nRun a comprehensive, universal Forensic Research Audit on [DOI, PMID, OR LOCAL PDF] following ./AGENTS.md.'); alert('Copied prompt to clipboard!');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-colors">
-                Copy
+              <button onclick="copySnippet(this, '@forensic-research-auditor /boost\nRun a comprehensive, universal Forensic Research Audit on [DOI, PMID, OR LOCAL PDF] following ./AGENTS.md.');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center space-x-1">
+                <span>Copy</span>
               </button>
             </div>
             <p class="text-xs text-slate-400 mt-3 leading-relaxed">
@@ -236,6 +236,9 @@
               <div class="text-slate-400"># Zero configuration: already embedded in the repo!</div>
               <div class="text-slate-200 mt-1">cd forensic_audit</div>
               <div class="text-emerald-400 mt-1"># Antigravity detects skills/forensic-auditor automatically</div>
+              <button onclick="copySnippet(this, 'cd forensic_audit');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center space-x-1">
+                <span>Copy</span>
+              </button>
             </div>
 
             <!-- TAB LINUX -->
@@ -243,8 +246,8 @@
               <div class="text-slate-400"># Install globally for all Antigravity workspaces:</div>
               <div class="text-slate-200 mt-1">mkdir -p ~/.gemini/skills/forensic-auditor</div>
               <div class="text-slate-200 mt-1">cp -r skills/forensic-auditor/* ~/.gemini/skills/forensic-auditor/</div>
-              <button onclick="navigator.clipboard.writeText('mkdir -p ~/.gemini/skills/forensic-auditor && cp -r skills/forensic-auditor/* ~/.gemini/skills/forensic-auditor/'); alert('Copied Linux/macOS command!');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">
-                Copy
+              <button onclick="copySnippet(this, 'mkdir -p ~/.gemini/skills/forensic-auditor &amp;&amp; cp -r skills/forensic-auditor/* ~/.gemini/skills/forensic-auditor/');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center space-x-1">
+                <span>Copy</span>
               </button>
             </div>
 
@@ -253,8 +256,8 @@
               <div class="text-slate-400"># Install globally on Windows (PowerShell):</div>
               <div class="text-slate-200 mt-1">New-Item -ItemType Directory -Force -Path "$HOME\.gemini\skills\forensic-auditor"</div>
               <div class="text-slate-200 mt-1">Copy-Item -Recurse -Force skills\forensic-auditor\* "$HOME\.gemini\skills\forensic-auditor\"</div>
-              <button onclick="navigator.clipboard.writeText('New-Item -ItemType Directory -Force -Path \"$HOME\\.gemini\\skills\\forensic-auditor\"; Copy-Item -Recurse -Force skills\\forensic-auditor\\* \"$HOME\\.gemini\\skills\\forensic-auditor\\\"'); alert('Copied Windows command!');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">
-                Copy
+              <button onclick="copySnippet(this, 'New-Item -ItemType Directory -Force -Path \"$HOME\\.gemini\\skills\\forensic-auditor\"\nCopy-Item -Recurse -Force skills\\forensic-auditor\\* \"$HOME\\.gemini\\skills\\forensic-auditor\\\"');" class="absolute top-3 right-3 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition-all flex items-center space-x-1">
+                <span>Copy</span>
               </button>
             </div>
 
@@ -420,6 +423,22 @@
                   <span class="text-xs text-slate-300">
                     <strong class="text-rose-300 block">Scatterplot Over-Extrapolation (\(LR = 0.20\))</strong>
                     Claimed clinical zone has &lt; 5% data density (Gate 3.5 penalty).
+                  </span>
+                </label>
+
+                <label class="flex items-start space-x-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors">
+                  <input type="checkbox" id="flagSampleSize" class="mt-1 h-4 w-4 rounded border-slate-700 text-rose-500 focus:ring-rose-400">
+                  <span class="text-xs text-slate-300">
+                    <strong class="text-rose-300 block">Unreconciled Sample Size Shift (\(LR = 0.30\))</strong>
+                    Discrepant sample sizes (N) across tables unaccounted for in CONSORT flow.
+                  </span>
+                </label>
+
+                <label class="flex items-start space-x-3 p-2.5 rounded-lg bg-slate-900/60 border border-slate-800 hover:border-slate-700 cursor-pointer transition-colors">
+                  <input type="checkbox" id="flagRobHigh" class="mt-1 h-4 w-4 rounded border-slate-700 text-rose-500 focus:ring-rose-400">
+                  <span class="text-xs text-slate-300">
+                    <strong class="text-rose-300 block">Cochrane RoB 2 High Risk (\(LR = 0.15\))</strong>
+                    High risk of bias declared in one or more methodological domains.
                   </span>
                 </label>
 
@@ -633,6 +652,42 @@
 
   <!-- INTERACTIVE JAVASCRIPT -->
   <script>
+    function copySnippet(btn, text) {
+      const originalText = btn.innerHTML;
+      function showSuccess() {
+        btn.innerHTML = '<span>✓ Copied</span>';
+        btn.classList.add('bg-emerald-600', 'text-white');
+        btn.classList.remove('bg-slate-800', 'text-slate-300');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('bg-emerald-600', 'text-white');
+          btn.classList.add('bg-slate-800', 'text-slate-300');
+        }, 2000);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(showSuccess).catch(() => {
+          fallbackCopy(text);
+          showSuccess();
+        });
+      } else {
+        fallbackCopy(text);
+        showSuccess();
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {}
+      document.body.removeChild(textarea);
+    }
+
     function calculatePosterior() {
       const priorOdds = parseFloat(document.getElementById('studyType').value);
       
@@ -643,6 +698,8 @@
       if (document.getElementById('flagImbalance').checked) lrProduct *= 0.25;
       if (document.getElementById('flagSubgroup').checked) lrProduct *= 0.25;
       if (document.getElementById('flagExtrapolation').checked) lrProduct *= 0.20;
+      if (document.getElementById('flagSampleSize').checked) lrProduct *= 0.30;
+      if (document.getElementById('flagRobHigh').checked) lrProduct *= 0.15;
       if (document.getElementById('flagCoIntervention').checked) lrProduct *= 0.50;
       if (document.getElementById('flagBenford').checked) lrProduct *= 0.10;
 
@@ -655,15 +712,17 @@
       const postProb = (postOdds / (1 + postOdds)) * 100;
 
       document.getElementById('displayPrior').textContent = priorOdds.toFixed(3);
-      document.getElementById('displayLR').textContent = lrProduct < 0.001 ? lrProduct.toExponential(3) : lrProduct.toFixed(4);
-      document.getElementById('displayOdds').textContent = postOdds < 0.001 ? postOdds.toExponential(3) : postOdds.toFixed(4);
+      document.getElementById('displayLR').textContent = lrProduct < 0.0001 ? lrProduct.toExponential(3) : lrProduct.toFixed(4);
+      document.getElementById('displayOdds').textContent = postOdds < 0.0001 ? postOdds.toExponential(3) : postOdds.toFixed(4);
 
       const probEl = document.getElementById('postProb');
       const badgeEl = document.getElementById('statusBadge');
       const gaugeBar = document.getElementById('gaugeBar');
       const gaugeLabel = document.getElementById('gaugeLabel');
 
-      const formattedPct = postProb < 0.1 ? postProb.toFixed(3) + '%' : postProb.toFixed(1) + '%';
+      const formattedPct = postProb < 0.001 
+        ? '< 0.001%' 
+        : (postProb < 0.1 ? postProb.toFixed(3) + '%' : postProb.toFixed(1) + '%');
       probEl.textContent = formattedPct;
       gaugeLabel.textContent = formattedPct;
       gaugeBar.style.width = Math.min(100, Math.max(1, postProb)) + '%';
