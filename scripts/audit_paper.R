@@ -22,7 +22,7 @@ run_statcheck_audit <- function(paper_text_or_pdf_path, is_pdf = FALSE) {
 # 2. GRIM & DEBIT (scrutiny): Audit ALL summary tables (Table 1, Table 2, Subgroups)
 run_all_tables_audit <- function(named_tables_list) {
   results <- lapply(names(named_tables_list), function(tbl_name) {
-    df <- named_tables_list[[tbl_name]]
+    df <- tibble::as_tibble(named_tables_list[[tbl_name]])
     grim_res <- scrutiny::grim_map(df)
     flagged <- subset(grim_res, consistency == FALSE)
     list(table_name = tbl_name, all_checks = grim_res, impossible_means = flagged)
@@ -31,7 +31,29 @@ run_all_tables_audit <- function(named_tables_list) {
   return(results)
 }
 
-# 3. BENFORD'S LAW: Audit ALL multi-magnitude numerical tables
+# 3. SPRITE (rsprite2): Reconstruct distributions to check scale boundary variance
+run_sprite_check <- function(mean_val, sd_val, n_obs, min_scale = 1, max_scale = 7) {
+  params <- rsprite2::set_parameters(
+    mean = mean_val, sd = sd_val, n_obs = n_obs,
+    min_val = min_scale, max_val = max_scale
+  )
+  possibilities <- rsprite2::find_possible_distributions(params, seed = 42, n_distributions = 5)
+  return(possibilities)
+}
+
+# 4. CARLISLE TABLE 1 BASELINE UNIFORMITY & IMBALANCE AUDIT
+run_carlisle_baseline_audit <- function(baseline_p_values) {
+  chisq_stat <- -2 * sum(log(baseline_p_values))
+  df <- 2 * length(baseline_p_values)
+  combined_p <- pchisq(chisq_stat, df = df, lower.tail = FALSE)
+  return(list(
+    combined_p_value = combined_p,
+    severe_imbalance_risk = (combined_p < 0.05),
+    kill_switch_tripped = (combined_p < 0.0001 || combined_p > 0.9999)
+  ))
+}
+
+# 5. BENFORD'S LAW: Audit ALL multi-magnitude numerical tables
 run_comprehensive_benford_audit <- function(numeric_vector, table_label = "Dataset") {
   df <- data.frame(val = numeric_vector)
   bfd <- benford.analysis::benford(df$val, number.of.digits = 1, discrete = TRUE)
@@ -43,7 +65,7 @@ run_comprehensive_benford_audit <- function(numeric_vector, table_label = "Datas
   ))
 }
 
-# 4. SCATTERPLOT & SUBGROUP DENSITY AUDIT (Universal Chart Scrutiny)
+# 6. SCATTERPLOT & SUBGROUP DENSITY AUDIT (Universal Chart Scrutiny)
 run_chart_density_audit <- function(x_values, y_values, claimed_threshold_x) {
   total_points <- length(x_values)
   high_severity_mask <- x_values >= claimed_threshold_x

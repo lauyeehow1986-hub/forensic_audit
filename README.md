@@ -16,6 +16,15 @@ This repository provides an automated, non-compensatory forensic auditing suite 
 forensic_audit/
 ├── .agents/
 │   └── mcp_config.json          # Model Context Protocol (MCP) server definitions
+├── skills/
+│   └── forensic-auditor/        # Dedicated Google Antigravity Skill
+│       ├── SKILL.md             # Core skill specification & 4-Gate execution instructions
+│       ├── scripts/
+│       │   └── audit_paper.R    # Standalone R forensic statistical & chart audit script
+│       └── references/
+│           ├── antigravity_kit.md        # Antigravity AGENTS.md & mcp_config.json deployment kit
+│           ├── audit_paper_r.md          # Complete R audit script reference
+│           └── example_42802996_audit.md # Full worked reference verification packet (SCRATCH-HTN)
 ├── docs/
 │   ├── GEMINI_NOTEBOOK_GUIDE.md # Comprehensive guide for Gemini Notebook integration & synthesis
 │   └── FACT_VERIFICATION_APIS_AND_MCP.md # Complete reference of MCP servers and REST APIs for fact verification
@@ -127,49 +136,103 @@ uv pip install "mcp<2" --python $(uv tool list | grep rstudio-mcp -A 1 | tail -n
 
 ---
 
-## 4. Replicating an Audit (Step-by-Step)
+## 4. Google Antigravity Skill: `forensic-research-auditor`
+
+This repository includes a fully packaged, self-contained Google Antigravity skill located at [`skills/forensic-auditor/`](skills/forensic-auditor/).
+
+### Skill Architecture & Files
+```text
+skills/forensic-auditor/
+├── SKILL.md                          # Core instructions, 4-Gate execution protocol & output structure
+├── scripts/
+│   └── audit_paper.R                 # Standalone R forensic suite (statcheck, GRIM, SPRITE, Carlisle, Benford, Chart Density)
+└── references/
+    ├── antigravity_kit.md            # AGENTS.md and .agents/mcp_config.json templates for Antigravity
+    ├── audit_paper_r.md              # R audit script specification and documentation
+    └── example_42802996_audit.md     # Reference audit packet demonstrating 4-Gate evaluation & chart density audit
+```
+
+### Installation Options
+1. **Repository-Local (Zero-Configuration):**
+   The skill is already placed under `skills/forensic-auditor/`. When opening this repository in Antigravity, the skill is immediately recognized and available.
+
+2. **Global Installation for All Antigravity Projects:**
+   To make the forensic auditor available across all your Antigravity workspaces:
+   ```bash
+   # Linux / macOS:
+   mkdir -p ~/.gemini/skills/forensic-auditor
+   cp -r skills/forensic-auditor/* ~/.gemini/skills/forensic-auditor/
+
+   # Windows (PowerShell):
+   New-Item -ItemType Directory -Force -Path "$HOME\.gemini\skills\forensic-auditor"
+   Copy-Item -Recurse -Force skills\forensic-auditor\* "$HOME\.gemini\skills\forensic-auditor\"
+   ```
+
+### Invocation Commands
+In any Antigravity conversation or prompt session, activate the skill with `/boost`:
+```text
+@forensic-research-auditor /boost
+Run a comprehensive, universal Forensic Research Audit on [DOI, PMID, OR LOCAL PDF PATH] following ./AGENTS.md.
+```
+*(Also matches `@forensic-auditor /boost`)*
+
+---
+
+## 5. Replicating an Audit (Step-by-Step)
 
 ### Step 1: Initialize Workspace & Orchestrator
-Ensure your workspace includes `AGENTS.md` and `.agents/mcp_config.json`. If using the Antigravity skill, ensure `SKILL.md` is present in `~/.gemini/skills/forensic-auditor/`.
+Ensure your workspace includes `AGENTS.md` and `.agents/mcp_config.json`. The skill is readily accessible in `skills/forensic-auditor/` (or globally in `~/.gemini/skills/forensic-auditor/`).
 
 ### Step 2: Trigger the Audit
 Execute via the Antigravity prompt or CLI:
 ```text
-@forensic-auditor /boost
+@forensic-research-auditor /boost
 Run a comprehensive, universal Forensic Research Audit on [DOI, PMID, OR LOCAL PDF PATH] following ./AGENTS.md.
 ```
 
 ### Step 3: Automated Gate Execution
 1. **Metadata Screening:** The agent queries OpenAlex and PubMed for retraction tags and publication history.
-2. **Text Scanning:** Full text is audited for tortured phrasing.
+2. **Text Scanning:** Full text is audited for tortured phrasing and reagent contamination.
 3. **Statistical Computation:**
    - Extracts APA strings into R `run_statcheck_audit()`.
    - Feeds summary metrics into R `run_all_tables_audit()`.
+   - Verifies Likert/integer bounds using R `run_sprite_check()`.
+   - Computes baseline $p$-value uniformity via R `run_carlisle_baseline_audit()`.
    - Tests numerical distributions via R `run_comprehensive_benford_audit()`.
 4. **Data Density Auditing:**
    - Evaluates scatterplot distributions via `run_chart_density_audit(x_values, y_values, threshold)`.
-   - Confirms sample size reconciliation across all arms.
+   - Confirms sample size reconciliation ($N$) across all tables.
 5. **Registry Protocol Audit:**
    - Downloads protocol history from `https://clinicaltrials.gov/api/v2/studies/[NCT_ID]`.
    - Compares registered primary outcomes against published claims.
-   - Evaluates Cochrane RoB 2 domains.
+   - Evaluates Cochrane RoB 2 / ROBINS-I domains.
 
 ### Step 4: Bayesian Scorecard Calculation
 
 $$O_1 = O_0 \times \prod_{i} LR_i \quad \implies \quad P(\text{Credible}) = \frac{O_1}{1 + O_1}$$
 
 - **Standard Prior Odds ($O_0$):**
-  - Novel drug / device / therapeutic interventions: $O_0 = 0.10$ ($P_0 \approx 9.1\%$).
+  - Confirmatory Phase 3 Trial: $O_0 = 1.00$ ($P_0 = 50\%$).
   - Diagnostic / imaging strategies: $O_0 = 0.25$ ($P_0 = 20\%$).
+  - Novel drug / device / therapeutic interventions: $O_0 = 0.10$ ($P_0 \approx 9.1\%$).
+  - High-Risk / Low Biological Plausibility: $O_0 = 0.05$ ($P_0 \approx 4.8\%$).
 - **Likelihood Ratio (LR) Penalties:**
-  - Primary outcome failure: $LR = 0.15$
-  - Outcome demotion / silent switching / safety spin: $LR = 0.40$
-  - Unregistered subgroup presented as pre-specified: $LR = 0.25$
+  - Undeclared primary outcome switching / demotion: $LR = 0.05$ to $0.40$
+  - Benford's Law severe anomaly on numerical results: $LR = 0.10$
+  - Primary outcome failure with declared null: $LR = 0.15$
+  - Cochrane RoB 2 "High Risk" (any domain): $LR = 0.15$
   - Scatterplot over-extrapolation ($< 5\%$ tail data): $LR = 0.20$
-  - Unreconciled sample size mismatch: $LR = 0.30$
-  - Severe Benford anomaly on numerical results: $LR = 0.10$
+  - Single isolated non-decision rounding typo: $LR = 0.20$
+  - Baseline Table 1 clinical imbalance confounding primary/interaction: $LR = 0.25$
+  - Unregistered subgroup presented as pre-specified: $LR = 0.25$
+  - Primary $p$-value in $.041 - .049$ $p$-hacking zone: $LR = 0.25$
+  - Unreconciled sample size mismatch across tables: $LR = 0.30$
+  - Underpowered sample ($< 50\%$ power for target effect): $LR = 0.35$
+  - Cochrane RoB 2 "Some Concerns" (2+ domains): $LR = 0.50$
 - **Likelihood Ratio (LR) Bonuses:**
-  - Flawless pre-registered primary endpoint pass + 100% GRIM/statcheck consistency: $LR = 1.80$ to $2.50$
+  - Independent supporting replication in `scite.ai`: $LR = 4.00$
+  - Pre-registered with exact primary endpoint match: $LR = 2.50$
+  - Open raw data and reproducible code verified: $LR = 2.00$
 
 ### Step 5: Export & Gemini Notebook Ingestion
 The agent writes a timestamped verification packet to `./audit_reports/audit_[STUDY_KEY].md`.
@@ -180,7 +243,7 @@ Ingest the resulting markdown report directly into your **Forensic Research Audi
 
 ---
 
-## 5. Gemini Notebook Integration & Metascience Synthesis
+## 6. Gemini Notebook Integration & Metascience Synthesis
 
 The **Forensic Research Auditor** Gemini Notebook acts as the persistent knowledge base for all audits conducted through this repository.
 
@@ -191,7 +254,7 @@ The **Forensic Research Auditor** Gemini Notebook acts as the persistent knowled
 
 ---
 
-## 6. Adversarial Verification Rules
+## 7. Adversarial Verification Rules
 
 To maintain absolute mathematical integrity:
 - **Zero Mental Math:** 100% of statistical consistency checks, GRIM mappings, and Bayesian odds multiplications must be computed directly by R or Python scripts.
