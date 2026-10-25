@@ -12,6 +12,8 @@ This repository provides an automated, non-compensatory forensic auditing suite 
 forensic_audit/
 ├── .agents/
 │   └── mcp_config.json          # Model Context Protocol (MCP) server definitions
+├── docs/
+│   └── GEMINI_NOTEBOOK_GUIDE.md # Comprehensive guide for Gemini Notebook integration & synthesis
 ├── scripts/
 │   └── audit_paper.R            # Universal R forensic suite (statcheck, GRIM, Benford, Chart Density)
 ├── audit_reports/               # Generated verification packets (Markdown format)
@@ -149,15 +151,27 @@ $$O_1 = O_0 \times \prod_{i} LR_i \quad \implies \quad P(\text{Credible}) = \fra
 - **Likelihood Ratio (LR) Bonuses:**
   - Flawless pre-registered primary endpoint pass + 100% GRIM/statcheck consistency: $LR = 1.80$ to $2.50$
 
-### Step 5: Export & Ingestion
+### Step 5: Export & Gemini Notebook Ingestion
 The agent writes a timestamped verification packet to `./audit_reports/audit_[STUDY_KEY].md`.
 
 Ingest the resulting markdown report directly into your **Forensic Research Auditor** Gemini Notebook:
-`https://gemini.google.com/notebook/6b8609aa-fa3d-4a82-a123-5ffe7b4518e1`
+- **Notebook URL:** [`https://gemini.google.com/notebook/6b8609aa-fa3d-4a82-a123-5ffe7b4518e1`](https://gemini.google.com/notebook/6b8609aa-fa3d-4a82-a123-5ffe7b4518e1)
+- **Detailed Integration Guide:** See [`docs/GEMINI_NOTEBOOK_GUIDE.md`](docs/GEMINI_NOTEBOOK_GUIDE.md) for custom persona configuration, source ingestion workflows, cross-trial synthesis prompts, and generating conversational Audio Overviews (Deep Dives).
 
 ---
 
-## 5. Adversarial Verification Rules
+## 5. Gemini Notebook Integration & Metascience Synthesis
+
+The **Forensic Research Auditor** Gemini Notebook acts as the persistent knowledge base for all audits conducted through this repository.
+
+### Key Capabilities & Workflows:
+1. **Multimodal Knowledge Base:** Centralizes verified markdown packets across multiple clinical specialties and medical devices.
+2. **Adversarial Synthesis Prompts:** Pre-engineered prompts to query across studies for outcome switching, boundary leverage artifacts, and open-label co-intervention confounding (see [`docs/GEMINI_NOTEBOOK_GUIDE.md`](docs/GEMINI_NOTEBOOK_GUIDE.md)).
+3. **Audio Overview Generation:** Instantly turns complex audit packets (statcheck stdout, GRIM tables, Bayesian probability scores) into 2-host conversational podcast-style deep dives for journal clubs and research seminars.
+
+---
+
+## 6. Adversarial Verification Rules
 
 To maintain absolute mathematical integrity:
 - **Zero Mental Math:** 100% of statistical consistency checks, GRIM mappings, and Bayesian odds multiplications must be computed directly by R or Python scripts.
