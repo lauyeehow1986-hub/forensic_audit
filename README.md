@@ -2,6 +2,10 @@
 
 An autonomous metascience and forensic peer-review framework for Google Antigravity, powered by `gemini-3.8-flash` under adversarial `/boost` verification.
 
+> [!TIP] Live Interactive GitHub Page & Bayesian Calculator
+> The live interactive web portal and Bayesian Credibility Calculator are available at:  
+> **[https://lauyeehow1986-hub.github.io/forensic_audit/](https://lauyeehow1986-hub.github.io/forensic_audit/)**
+
 This repository provides an automated, non-compensatory forensic auditing suite designed to evaluate scientific manuscripts, preprints, randomized clinical trials, and observational studies across all text sections, numerical tables (Table 1 through Table $N$), and data visualizations (scatterplots, forest plots, trend lines).
 
 ---

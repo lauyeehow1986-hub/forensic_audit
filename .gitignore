@@ -6,6 +6,7 @@ audit_reports/audit_*.md
 *.json
 !/.agents/mcp_config.json
 *.html
+!/docs/*.html
 *.txt
 scratch*
 fetch_details.py
