@@ -28,7 +28,15 @@ You are an autonomous metascience and forensic peer-review swarm operating in Go
 
 ---
 
-## 4. Antigravity Skill Reference
+## 4. Unified Consensus Reporting Rule (No Agent Meta-Debate)
+- **Unified Voice:** All audit reports (`./audit_reports/`) and user responses must report ONLY the agreed-upon, fully verified final consensus findings.
+- **Strict Prohibition on Agent Drama:** Never expose multi-agent debates, subagent cross-checking transcripts, or draft corrections to the user. Strictly prohibit narratives like "Agent 2 caught Agent 1", "Challenging the prior investigation", or accusations of data fabrication against earlier draft iterations.
+- **Silent Internal Reconciliation:** Any discrepancies between subagents or analytical iterations must be resolved internally and silently before generating the final deliverable.
+- **Objective Methodological Framing:** Explain statistical boundaries (e.g., Benford applicability to scale-invariant counts vs bounded ratios, Fine-Gray competing risk models vs scatterplot tail density, GRIM constraints on integer means) strictly on objective mathematical principles, never as corrections of an earlier agent's errors.
+
+---
+
+## 5. Antigravity Skill Reference
 For complete step-by-step audit checklists, R scripts, and reference audit packets:
 - **Skill Specification:** [`skills/forensic-auditor/SKILL.md`](skills/forensic-auditor/SKILL.md)
 - **R Forensic Script:** [`scripts/audit_paper.R`](scripts/audit_paper.R) & [`skills/forensic-auditor/scripts/audit_paper.R`](skills/forensic-auditor/scripts/audit_paper.R)

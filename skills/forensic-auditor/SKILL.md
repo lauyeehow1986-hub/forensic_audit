@@ -93,6 +93,13 @@ Always present the final audit using these 5 sections:
 4. **Gate 4 Outcome Switching & Cochrane RoB 2 Scorecard:** Registry alignment and domain-by-domain risk-of-bias table with verbatim quotes.
 5. **Tier 2 Bayesian Credibility Calculation:** Step-by-step table showing Prior Probability, each applied `LR_i`, final Posterior Credibility Percentage, and GRADE certainty rating.
 
+## Unified Consensus Reporting Standard (Strict Prohibition on Agent Meta-Debate)
+
+- **Deliver Final Consensus Only:** Always report only the agreed-upon, fully verified final forensic results in both chat responses and markdown audit reports (`audit_[STUDY_KEY].md`).
+- **Zero Agent-vs-Agent Meta-Commentary:** Never expose multi-agent debates, subagent cross-checking transcripts, or internal drafting revisions to the user. Strictly prohibit narratives such as "Agent 2 verified Agent 1", "The previous investigator hallucinated/fabricated data", or "Deconstructing the prior attempt".
+- **Silent Internal Reconciliation:** Multi-agent checks, peer reviews, and adversarial critiques must resolve all contradictions internally and silently before generating the final deliverable.
+- **Objective Methodological Framing:** When clarifying statistical boundaries (e.g., why Benford's Law is inapplicable to bounded ratios or metadata, or why Fine-Gray models do not rely on scatterplot extrapolation), frame the explanation entirely on objective mathematical and biostatistical principles. Never frame technical clarifications as corrections of an earlier agent's errors.
+
 ## Supplementary Resources in This Skill
 
 - `scripts/audit_paper.R`: Complete R forensic script (`statcheck`, `scrutiny::grim_map`, `rsprite2`, `benford.analysis`, Carlisle baseline check, and `run_chart_density_audit`).
@@ -103,3 +110,4 @@ Always present the final audit using these 5 sections:
 
 - **Never stop at Table 1:** Always inspect outcome tables (Table 2+), subgroup tables, and scatterplots/figures. Many papers pass basic `GRIM` and `statcheck` screens while drawing sweeping clinical conclusions from a scatterplot with almost no data points in the severe range.
 - **No mental math masquerading as R output:** Only display an R console stdout block if it was genuinely executed in an R runtime (`rstudio-mcp`) or provided by the user. In chat-only environments without an R runtime, perform the exact mathematical verification transparently and provide the runnable R snippet.
+- **No internal agent drama or debugging transcripts in reports:** Present the final verdict with unified authoritative peer-review consensus. Never mention subagent disagreements, prior draft mistakes, or internal validation debates.
