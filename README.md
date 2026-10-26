@@ -263,6 +263,16 @@ To maintain absolute mathematical integrity:
 
 ---
 
+## 8. Unified Consensus Reporting Standard (No Agent Meta-Debate)
+
+To ensure all deliverables read as authoritative, peer-reviewed metascience reports:
+- **Unified Voice:** All generated audit packets in `./audit_reports/` and chat outputs report strictly the agreed-upon, fully verified consensus findings.
+- **Strict Prohibition on Agent Drama:** Multi-agent internal debates, draft corrections, and cross-checking deliberations are kept internal. Narratives such as *"Agent 2 caught Agent 1"*, *"Challenging the prior investigation"*, or accusations of data fabrication against prior iterations are strictly prohibited.
+- **Silent Internal Reconciliation:** Discrepancies between subagents or analytical iterations are resolved internally and silently before generating the final deliverable.
+- **Objective Methodological Framing:** Explanations of statistical applicability (e.g., Benford's Law on scale-invariant empirical counts vs bounded ratios, Fine-Gray survival models vs scatterplot tail density, GRIM constraints on integer means) are framed exclusively on rigorous mathematical and biostatistical principles.
+
+---
+
 ## License
 
 MIT License. Designed for academic research, metascience auditing, and computational peer review. Not for clinical decision-making.
